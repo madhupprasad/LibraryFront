@@ -96,7 +96,7 @@ const App = () => {
     console.log(filter);
 
     if (filter === "Book") {
-      fetch(`http://localhost:5000/search/bybook?bookname=${value}`)
+      fetch(`https://madhu.ninja/python/search/bybook?bookname=${value}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data.books);
@@ -110,7 +110,7 @@ const App = () => {
           setLoading(false);
         });
     } else if (filter === "Author") {
-      fetch(`http://localhost:5000/search/byauthor?authorname=${value}`)
+      fetch(`https://madhu.ninja/python/search/byauthor?authorname=${value}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data.books);
