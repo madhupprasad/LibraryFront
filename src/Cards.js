@@ -5,6 +5,7 @@ export const Cards = ({ books }) => {
   const bookslist = books.map((item) => {
     return (
       <Card
+        target="_blank"
         href={item.Mirror_1}
         key={item.ID}
         header={item.Title}
