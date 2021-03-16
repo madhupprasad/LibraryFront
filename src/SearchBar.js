@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Popup } from "semantic-ui-react";
 
 export const SearchBar = ({ handleClick }) => {
   const [value, setValue] = useState("");
   let [filter, setFilter] = useState("Book");
+  const searchInput = useRef(null);
+
+  useEffect(() => {
+    // current property is refered to input element
+    searchInput.current.focus();
+  }, []);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -25,6 +31,7 @@ export const SearchBar = ({ handleClick }) => {
     <div>
       <div className="search-box">
         <input
+          ref={searchInput}
           type="text"
           placeholder="Search here..."
           value={value}

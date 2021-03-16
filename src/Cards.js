@@ -14,6 +14,5 @@ export const Cards = ({ books }) => {
       ></Card>
     );
   });
-
   return <Card.Group centered> {bookslist} </Card.Group>;
 };
