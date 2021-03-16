@@ -22,7 +22,9 @@ const SearchBar = ({ handleClick }) => {
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      handleClick({ value, filter });
+      if (value.length > 3) {
+        handleClick({ value, filter });
+      }
     }
   };
 
@@ -34,7 +36,7 @@ const SearchBar = ({ handleClick }) => {
     <div>
       <div className="search-box">
         <input
-          type="search"
+          type="text"
           placeholder="Search here..."
           value={value}
           onChange={handleChange}
