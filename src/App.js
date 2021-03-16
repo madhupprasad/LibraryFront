@@ -57,7 +57,7 @@ const App = () => {
           marginTop: "10px",
         }}
       >
-        <h1>LIBRARY 2.0</h1>
+        <h1>LIBRARY GENESIS 2.0</h1>
         <SearchBar handleClick={handleClick}></SearchBar>
         {loading === true && (
           <Dimmer active>
