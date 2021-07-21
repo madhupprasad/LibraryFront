@@ -10,7 +10,7 @@ const Download = ({item}) => {
   const getDLink = (item) => {
     // console.log(item)
     setLoading(true)
-    fetch('http://127.0.0.1:5000/python/getlink',
+    fetch('https://madhu.ninja/python/getlink',
       {
         method:'POST',
         headers:{
