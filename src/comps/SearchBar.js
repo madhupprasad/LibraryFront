@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Popup } from "semantic-ui-react";
+import { Button, Icon, Input, Popup } from "semantic-ui-react";
+import "../styles/search.scss";
+
 
 export const SearchBar = ({ handleClick }) => {
   const [value, setValue] = useState("");
-  let [filter, setFilter] = useState("Book");
+  let [filter, setFilter] = useState("bookname");
   const searchInput = useRef(null);
 
   useEffect(() => {
@@ -23,45 +25,33 @@ export const SearchBar = ({ handleClick }) => {
     }
   };
 
-  const handleFilter = (event) => {
-    setFilter(event.target.value);
+  const handleFilter = (value) => {
+    setFilter(value);
   };
 
   return (
     <div>
       <div className="search-box">
-        <input
+        <Input
+          size = 'huge'
           ref={searchInput}
           type="text"
-          placeholder="Search here..."
+          placeholder="Search..."
           value={value}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
         />
-        <button
-          type="submit"
-          onClick={() => handleClick({ value, filter })}
-          className="search-btn"
-          disabled={value.length < 4}
-        >
-          <Popup
-            content="Type atleast 4 characters"
-            trigger={<i className="fa fa-search"></i>}
-          ></Popup>
-        </button>
       </div>
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}
       >
-        <div onChange={handleFilter}>
-          <label>SEARCH BY - </label>
-          <label>
-            <input type="radio" value="Book" name="filter" defaultChecked />{" "}
-            Book
-          </label>
-          <label>
-            <input type="radio" value="Author" name="filter" /> Author
-          </label>
+        <div>
+
+        <Button.Group>
+          <Button positive = { filter === 'bookname' ? true : false} onClick = {()=>handleFilter('bookname')}>Book Name </Button>
+          <Button.Or />
+          <Button positive = {  filter === 'authorname' ? true : false} onClick = {()=>handleFilter('authorname')}>Author Name </Button>
+        </Button.Group>
         </div>
       </div>
     </div>

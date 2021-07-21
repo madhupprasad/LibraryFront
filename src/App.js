@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import "./search.scss";
 import { Button, Checkbox, Dimmer, Divider, Loader } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
-import { SearchBar } from "./SearchBar";
-import { Cards } from "./Cards";
+import { SearchBar } from "./comps/SearchBar";
+import { Cards } from "./comps/Cards";
+import Filter from "./comps/Filter";
 
 const App = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [noBook, setNoBook] = useState(false);
+  const [filter, setFilter] = useState('all');
+
   const handleClick = ({ value, filter }) => {
+    // https://madhu.ninja/python/search/bybook?${filter}=${value}
     setLoading(true);
-
-    console.log(filter);
-
-    if (filter === "Book") {
-      fetch(`https://madhu.ninja/python/search/bybook?bookname=${value}`)
+      fetch(`http://127.0.0.1:5000/python/search/${filter}?${filter}=${value}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.books);
+          console.log(data);
           if (data.books.length > 0) {
             setBooks(data.books);
             setNoBook(false);
@@ -29,22 +28,11 @@ const App = () => {
           }
           setLoading(false);
         });
-    } else if (filter === "Author") {
-      fetch(`https://madhu.ninja/python/search/byauthor?authorname=${value}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data.books);
-          if (data.books.length > 0) {
-            setBooks(data.books);
-            setNoBook(false);
-          } else {
-            setBooks([]);
-            setNoBook(true);
-          }
-          setLoading(false);
-        });
+    } 
+
+    const handleFilter = (value) => {
+      setFilter(value)
     }
-  };
 
   return (
     <div>
@@ -57,7 +45,7 @@ const App = () => {
           marginTop: "10px",
         }}
       >
-        <h1>LIBRARY GENESIS 2.0</h1>
+        <h1>Search for Books</h1>
         <SearchBar handleClick={handleClick}></SearchBar>
         {loading === true && (
           <Dimmer active>
@@ -68,8 +56,10 @@ const App = () => {
 
       {books.length > 0 && (
         <div>
-          <Divider horizontal>The Books I Found</Divider>
-          <Cards books={books}></Cards>
+          <Divider />
+            <Filter handleFilter={handleFilter}/>
+          <Divider />
+          <Cards filter={filter} books={books}></Cards>
         </div>
       )}
       {noBook && (

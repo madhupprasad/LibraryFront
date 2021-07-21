@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:300,700");
+
+$font: "Lato", sans-serif;
+
+$white: #ffffff;
+$black: #000000;
+$orange: #e7693b;
+$blue: #81cce8;
+$limegreen: #7ade25;
+$ease: all 0.3s ease;
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-btn {
+  box-shadow: 10px 10px 4px rgba($black, 0.4);
+  height: 50px;
+  width: 50px;
+  outline: none;
+  background: $limegreen;
+  color: $white;
+  border: none;
+  transition: $ease;
+  cursor: pointer;
+  i {
+    font-size: 2.3em;
+  }
+}
+
+label {
+  margin-right: 10px;
+  font-size: 20px;
+}
