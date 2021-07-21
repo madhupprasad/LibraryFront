@@ -13,9 +13,8 @@ const App = () => {
   const [filter, setFilter] = useState('all');
 
   const handleClick = ({ value, filter }) => {
-    // https://madhu.ninja/python/search/bybook?${filter}=${value}
     setLoading(true);
-      fetch(`http://127.0.0.1:5000/python/search/${filter}?${filter}=${value}`)
+      fetch(`https://madhu.ninja/python/search/${filter}?${filter}=${value}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
