@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@700&display=swap");
+
+.navbar {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin button-base {
+  font-weight: bold;
+  font-size: large;
+  margin-right: 10px;
+  font-size: calc(8px + 0.7vw);
+  border: 1px solid;
+  padding: 5px;
+  width: fit-content;
+  color: white;
+  transition: all 0.5s ease-out;
+  background: linear-gradient(to left, black 50%, white 50%) right;
+  background-size: 200%;
+  cursor: pointer;
+  &:hover {
+    background-position: left;
+    color: black;
+  }
+}
+
+.header {
+  @include button-base;
+}
+
+.logout {
+  @include button-base;
+  color: red;
+  background: linear-gradient(to left, black 50%, red 50%) right;
+  background-size: 200%;
+  &:hover {
+    background-position: left;
+    color: black;
+  }
+}
+
+.title {
+  font-family: "Azeret Mono", monospace;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
+  background: linear-gradient(to right, red, red 50%, white 50%);
+  background-clip: text;
+  background-size: 200% 100%;
+  background-position: 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.4s ease;
+  &:hover {
+    background-position: 0 100%;
+  }
+}

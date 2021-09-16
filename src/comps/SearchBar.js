@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Icon, Input, Popup } from "semantic-ui-react";
+import { Button, Input } from "semantic-ui-react";
 import "../styles/search.scss";
-
 
 export const SearchBar = ({ handleClick }) => {
   const [value, setValue] = useState("");
@@ -13,12 +12,14 @@ export const SearchBar = ({ handleClick }) => {
     searchInput.current.focus();
   }, []);
 
+  useEffect(() => {}, [searchInput.current]);
+
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event?.type === "blur") {
       if (value.length > 3) {
         handleClick({ value, filter });
       }
@@ -33,25 +34,35 @@ export const SearchBar = ({ handleClick }) => {
     <div>
       <div className="search-box">
         <Input
-          size = 'huge'
+          size="huge"
           ref={searchInput}
           type="text"
           placeholder="Search..."
           value={value}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
+          onBlur={handleKeyPress}
         />
       </div>
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}
       >
         <div>
-
-        <Button.Group>
-          <Button positive = { filter === 'bookname' ? true : false} onClick = {()=>handleFilter('bookname')}>Book Name </Button>
-          <Button.Or />
-          <Button positive = {  filter === 'authorname' ? true : false} onClick = {()=>handleFilter('authorname')}>Author Name </Button>
-        </Button.Group>
+          <Button.Group>
+            <Button
+              positive={filter === "bookname" ? true : false}
+              onClick={() => handleFilter("bookname")}
+            >
+              Book Name{" "}
+            </Button>
+            <Button.Or />
+            <Button
+              positive={filter === "authorname" ? true : false}
+              onClick={() => handleFilter("authorname")}
+            >
+              Author Name{" "}
+            </Button>
+          </Button.Group>
         </div>
       </div>
     </div>

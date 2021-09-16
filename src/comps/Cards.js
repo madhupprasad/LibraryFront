@@ -1,96 +1,169 @@
-import React, { useState } from "react";
-import { Button, Card, Divider, Icon, Loader } from "semantic-ui-react";
-import '../styles/cards.css'
+import React, { useContext, useState } from "react";
+import { Divider, Loader } from "semantic-ui-react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import "../styles/cards.css";
+import { Paper } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { addBook, getLink, removeBook } from "../services/auth";
+import { userCred } from "../Router";
 
-const Download = ({item}) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
+  },
+  paper: {
+    padding: theme.spacing(1),
+    color: theme.palette.text.secondary,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  download: {
+    marginTop: "10px",
+  },
+  addButton: {
+    marginBottom: "10px",
+  },
+}));
 
-  const [link, setLink] = useState(false)
-  const [loading,setLoading] = useState(false)
+const Download = ({ item }) => {
+  const [link, setLink] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const classes = useStyles();
 
   const getDLink = (item) => {
-    // console.log(item)
-    setLoading(true)
-    fetch('https://madhu.ninja/python/getlink',
-      {
-        method:'POST',
-        headers:{
-          'Accept':'application/json',
-          'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(item)
-      }
-    ).then(res => res.json())
-    .then(data => {
-      console.log(data)
-      if (data) {
-        setLoading(false)
-        setLink(data.links)
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  }
+    setLoading(true);
+    getLink({ item })
+      .then((data) => {
+        console.log(data);
+        if (data) {
+          setLoading(false);
+          setLink(data.links);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-
-  <div>
-    { link === false  && loading === false &&
-    <Button onClick={()=>getDLink(item)}>
-      <Icon name='download' />
-        Get Download Links
-    </Button>
-    }
-
-    {loading &&  
-      <Loader active inline='centered' />
-}
-
-    {link && 
     <div>
-      <div className="linkContainer" style={{display:'flex', justifyContent:'space-between'}}>
-        <a href={link['IPFS.io']} target="_blank" download>
-          <Icon name='download' />
-          IPFS.io
-        </a>
-        <a href={link['Cloudflare']} target="_blank" download>
-        <Icon name='download' />
-          Cloudflare
-        </a>
-        <a href={link['Infura']} target="_blank" download>
-        <Icon name='download' />
-          Infura
-        </a>
+      {link === false && loading === false && (
+        <Button
+          className={classes.download}
+          variant="contained"
+          color="primary"
+          onClick={() => getDLink(item)}
+        >
+          Get
+        </Button>
+      )}
+
+      {loading && <Loader active inline="centered" />}
+
+      {link && (
+        <div>
+          <Divider></Divider>
+          <div
+            className="linkContainer"
+            style={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <a href={link["IPFS.io"]} target="_blank" download>
+              IPFS.io
+            </a>
+            <a href={link["Cloudflare"]} target="_blank" download>
+              Cloudflare
+            </a>
+            <a href={link["Infura"]} target="_blank" download>
+              Infura
+            </a>
+          </div>
+        </div>
+      )}
     </div>
+  );
+};
 
-    <Divider/>
-    
-      <a href={link['GET']} target="_blank" download>
-          <p style={{textAlign:'center'}}>Visit the libgen website</p>
-      </a>
+export const Cards = ({ books, filter, isUserBooks }) => {
+  const classes = useStyles();
+  const { userName } = useContext(userCred);
 
-  </div>
-  
-    
-    }
-  </div>
-)
-}
+  const handleAdd = (item) => {
+    addBook({ item, userName }).then((res) => {
+      alert(res?.msg);
+    });
+  };
 
-export const Cards = ({ books , filter}) => {
+  const handleRemove = (item) => {
+    removeBook({ item, userName }).then((res) => {
+      alert(res?.msg);
+    });
+  };
 
   const bookslist = books.map((item) => {
-    if (item['Extension'] === filter || filter === 'all'){
-    return (
-      <Card
-        target="_blank"
-        key={item.ID}
-        header={item.Title}
-        meta={item.Extension}
-        description={item.Author}
-        extra={<Download item={item}/>}
-     />
-    );
-  }
+    if (item["Extension"] === filter || filter === "all") {
+      function extColor(ext) {
+        switch (ext) {
+          case "pdf":
+            return "red";
+          case "djvu":
+            return "yellow";
+          case "epub":
+            return "blue";
+          case "mobi":
+            return "cyan";
+          default:
+            return "black";
+        }
+      }
+
+      return (
+        <Grid key={item.ID} item xs={12} md={3}>
+          <Paper
+            className={classes.paper}
+            variant="outlined"
+            style={{ height: "100%" }}
+          >
+            <div className={classes.addButton}>
+              {isUserBooks ? (
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => handleRemove(item)}
+                >
+                  Remove
+                </Button>
+              ) : (
+                <Button variant="outlined" onClick={() => handleAdd(item)}>
+                  Add to List
+                </Button>
+              )}
+            </div>
+            <b>{item.Title.slice(0, 50)}...</b>
+            <div style={{ color: extColor(item.Extension) }}>
+              {item.Extension}
+            </div>
+            <div>{item.Author}</div>
+            <div>
+              <Download item={item} />
+            </div>
+          </Paper>
+        </Grid>
+      );
+    }
   });
-  return <Card.Group centered> {bookslist} </Card.Group>;
+  return (
+    <div className={classes.root}>
+      {isUserBooks && (
+        <header className="header" style={{ marginBottom: "10px" }}>
+          Your Books
+        </header>
+      )}
+      <Grid container spacing={3}>
+        {bookslist}
+      </Grid>
+    </div>
+  );
 };
