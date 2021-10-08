@@ -19,7 +19,7 @@ export const SearchBar = ({ handleClick }) => {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter" || event?.type === "blur") {
+    if (event.key === "Enter") {
       if (value.length > 3) {
         handleClick({ value, filter });
       }
@@ -41,7 +41,6 @@ export const SearchBar = ({ handleClick }) => {
           value={value}
           onChange={handleChange}
           onKeyPress={handleKeyPress}
-          onBlur={handleKeyPress}
         />
       </div>
       <div

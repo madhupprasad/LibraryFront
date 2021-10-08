@@ -99,3 +99,38 @@ export const getUserBooks = ({ userName }) => {
     body: JSON.stringify(userName),
   }).then((res) => res.json());
 };
+
+export const getAllLikedBooks = () => {
+  return fetch(url + "/python/getAllLikedBooks", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+};
+
+export const postBlog = ({ data }) => {
+  return fetch(url + "/python/postBlog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((res) => res.json());
+};
+
+export const getBlog = () => {
+  return fetch(url + "/python/getBlog", {
+    method: "GET",
+  }).then((res) => res.json());
+};
+
+export const deleteBlog = (data) => {
+  return fetch(url + "/python/deleteBlog", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((res) => res.json());
+};

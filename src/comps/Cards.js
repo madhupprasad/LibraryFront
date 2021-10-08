@@ -7,6 +7,7 @@ import { Paper } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { addBook, getLink, removeBook } from "../services/auth";
 import { userCred } from "../Router";
+import Info from "./info";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Download = ({ item }) => {
+  const { userName } = useContext(userCred);
   const [link, setLink] = useState(false);
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
@@ -86,19 +88,27 @@ const Download = ({ item }) => {
   );
 };
 
-export const Cards = ({ books, filter, isUserBooks }) => {
+export const Cards = ({
+  books,
+  filter,
+  isUserBooks,
+  setBooks,
+  setPostBlogVisible,
+}) => {
   const classes = useStyles();
   const { userName } = useContext(userCred);
+  const [info, setInfo] = useState("");
 
   const handleAdd = (item) => {
     addBook({ item, userName }).then((res) => {
-      alert(res?.msg);
+      setInfo(new String(res?.msg));
     });
   };
 
   const handleRemove = (item) => {
     removeBook({ item, userName }).then((res) => {
-      alert(res?.msg);
+      setInfo(new String(res?.msg));
+      setBooks(res?.data);
     });
   };
 
@@ -133,11 +143,11 @@ export const Cards = ({ books, filter, isUserBooks }) => {
                   color="secondary"
                   onClick={() => handleRemove(item)}
                 >
-                  Remove
+                  ❤️
                 </Button>
               ) : (
                 <Button variant="outlined" onClick={() => handleAdd(item)}>
-                  Add to List
+                  ❤️
                 </Button>
               )}
             </div>
@@ -148,17 +158,29 @@ export const Cards = ({ books, filter, isUserBooks }) => {
             <div>{item.Author}</div>
             <div>
               <Download item={item} />
+              <Button
+                className={classes.download}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  setPostBlogVisible(item.Title);
+                }}
+              >
+                Post
+              </Button>
             </div>
           </Paper>
         </Grid>
       );
     }
   });
+
   return (
     <div className={classes.root}>
+      <Info showInfo={info} severity={"success"} />
       {isUserBooks && (
         <header className="header" style={{ marginBottom: "10px" }}>
-          Your Books
+          {userName}'s ❤️ Books
         </header>
       )}
       <Grid container spacing={3}>

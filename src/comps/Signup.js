@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
 import { signup } from "../services/auth";
 import Cookies from "universal-cookie/es6";
-import AuthForm from "../comps/AuthForm";
+import AuthForm from "./AuthForm";
 const cookie = new Cookies();
 
 function Signup() {
@@ -21,12 +21,14 @@ function Signup() {
 
   const handleSubmit = (cred) => {
     if (!cred.username.trim()) {
-      setShowError("Username invalid");
+      setShowError(new String("Username invalid"));
     } else if (!cred.password.trim()) {
-      setShowError("Password invalid");
+      setShowError(new String("Password invalid"));
     } else if (CheckPassword(cred.password)) {
       setShowError(
-        "check if the password is between 7 to 16 characters which contain only characters, numeric digits, underscore and first character must be a letter"
+        new String(
+          "check if the password is between 7 to 16 characters which contain only characters, numeric digits, underscore and first character must be a letter"
+        )
       );
     } else {
       signup(cred).then(([isRes, resMsg]) => {
@@ -34,7 +36,7 @@ function Signup() {
           cookie.set("access_token_lib", resMsg["access_token"]);
           history.replace("/");
         } else {
-          setShowError(resMsg);
+          setShowError(new String(resMsg));
         }
       });
     }
