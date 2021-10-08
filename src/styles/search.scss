@@ -34,3 +34,11 @@ label {
   margin-right: 10px;
   font-size: 20px;
 }
+
+table,
+th,
+td {
+  border: 1px solid white;
+  border-collapse: collapse;
+  color: white;
+}

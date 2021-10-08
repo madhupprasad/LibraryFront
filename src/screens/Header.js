@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory } from "react-router";
 import Cookies from "universal-cookie/es6";
 import "../styles/header.scss";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core";
 
 const cookies = new Cookies();
@@ -15,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({ name, handler }) {
+function Header({ name, handler, postHandler }) {
   const history = useHistory();
   const classes = useStyles();
   const handleLogout = (e) => {
@@ -40,13 +39,16 @@ function Header({ name, handler }) {
         </div>
       </div>
       <div className={classes.flexCenter}>
+        <header className="header" onClick={postHandler}>
+          Posts
+        </header>
         <header
           className="header"
           onClick={() => {
             handler(name);
           }}
         >
-          {name}'s books
+          ❤️
         </header>
         <header className="logout" onClick={handleLogout}>
           logout

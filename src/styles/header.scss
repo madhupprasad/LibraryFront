@@ -61,3 +61,15 @@
     background-position: 0 100%;
   }
 }
+
+.white-border {
+  border: 1px solid white;
+  padding: 10px;
+}
+
+.column-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,7 +1,6 @@
-import { Snackbar } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Dimmer, Form, Loader } from "semantic-ui-react";
+import Info from "./info";
 
 function AuthForm({ type, handleSubmit, showError }) {
   const [cred, setCred] = useState({ username: "", password: "" });
@@ -9,9 +8,7 @@ function AuthForm({ type, handleSubmit, showError }) {
     setCred({ ...cred, [key]: event.target.value });
   };
   const [toggle, setToggle] = useState(false);
-
-  const [closeAlert, setCloseAlert] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const legend = {
     backgroundColor: "white",
     border: "2px solid black",
@@ -26,28 +23,9 @@ function AuthForm({ type, handleSubmit, showError }) {
     backgroundColor: "white",
   };
 
-  useEffect(() => {
-    if (showError) {
-      setCloseAlert(true);
-    }
-  }, [showError]);
-
   return (
     <Form>
-      {showError && (
-        <Snackbar
-          open={closeAlert}
-          autoHideDuration={6000}
-          onClose={() => {
-            setCloseAlert(false);
-          }}
-        >
-          <Alert variant="filled" severity="error">
-            {showError}
-          </Alert>
-        </Snackbar>
-      )}
-
+      <Info showInfo={showError} severity={"error"} />
       <fieldset style={fieldset}>
         <legend style={legend}>{type}</legend>
         <Form.Field>
@@ -91,7 +69,14 @@ function AuthForm({ type, handleSubmit, showError }) {
             i
           </i>
         </Form.Field>
-        <Button onClick={() => handleSubmit(cred)}>{type}</Button>
+        <Button
+          onClick={() => {
+            setLoading(true);
+            handleSubmit(cred);
+          }}
+        >
+          {type}
+        </Button>
       </fieldset>
     </Form>
   );

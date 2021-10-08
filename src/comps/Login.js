@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Cookies from "universal-cookie/es6";
-import AuthForm from "../comps/AuthForm";
+import AuthForm from "./AuthForm";
 import { login } from "../services/auth";
 const cookie = new Cookies();
 
@@ -11,16 +11,16 @@ function Login() {
 
   const handleSubmit = (cred) => {
     if (!cred.username.trim()) {
-      setShowError("Username invalid");
+      setShowError(new String("Username invalid"));
     } else if (!cred.password.trim()) {
-      setShowError("Password invalid");
+      setShowError(new String("Password invalid"));
     } else {
       login(cred).then(([isRes, resMsg]) => {
         if (isRes) {
           cookie.set("access_token_lib", resMsg["access_token"]);
           history.replace("/");
         } else {
-          setShowError(resMsg);
+          setShowError(new String(resMsg));
         }
       });
     }

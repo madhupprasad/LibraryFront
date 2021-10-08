@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Login from "./Login";
-import Signup from "./Signup";
+import Login from "../comps/Login";
+import Signup from "../comps/Signup";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 
