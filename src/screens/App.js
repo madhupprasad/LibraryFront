@@ -28,6 +28,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import Chat from "../comps/chat";
 
 const cookie = new Cookies();
 
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   flexCenter: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
   },
   paper: {
@@ -171,7 +172,7 @@ export const App = () => {
           <table>
             <tbody>
               <tr>
-                <th>Top ❤️ Books</th>
+                <th>Top 10 ❤️ Books</th>
                 <th>❤️</th>
               </tr>
               {topLiked.slice(0, 9).map((res, idx) => {
@@ -356,6 +357,7 @@ export const App = () => {
           </h3>
         </div>
       )}
+      <Chat />
     </div>
   );
 };
