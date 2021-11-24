@@ -163,6 +163,10 @@ export const Cards = ({
                 variant="contained"
                 color="primary"
                 onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
                   setPostBlogVisible(item.Title);
                 }}
               >

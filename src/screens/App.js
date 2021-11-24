@@ -30,6 +30,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import Chat from "../comps/chat";
 
+import io from "socket.io-client";
+let endpoint = "http://localhost:5000";
+let socket = io.connect(`${endpoint}`);
+
 const cookie = new Cookies();
 
 const useStyles = makeStyles((theme) => ({
@@ -100,7 +104,6 @@ export const App = () => {
     } else {
       history.replace("/auth");
     }
-
     getAllLikedBooks().then((res) => {
       setTopLiked(res);
     });
@@ -357,7 +360,7 @@ export const App = () => {
           </h3>
         </div>
       )}
-      <Chat />
+      <Chat socket={socket} />
     </div>
   );
 };
