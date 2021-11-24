@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import io from "socket.io-client";
 import { userCred } from "../Router";
-let endpoint = "http://localhost:5000";
-let socket = io.connect(`${endpoint}`);
 
-function Chat() {
+function Chat({ socket }) {
   const [message, setMessage] = useState("");
-  const [incMsg, setIncMsg] = useState([""]);
+  const [incMsg, setIncMsg] = useState(["Welcome Everyone! - Group chat"]);
   const [showChat, setShowChat] = useState(false);
 
   const { userName } = useContext(userCred);
@@ -38,7 +35,7 @@ function Chat() {
     <div
       style={{
         position: "fixed",
-        bottom: "20px",
+        bottom: "100px",
         right: "0px",
         zIndex: "10",
       }}
@@ -47,7 +44,7 @@ function Chat() {
         <div>
           <div
             style={{
-              height: "100px",
+              height: "320px",
               width: "230px",
               border: "1px solid white",
               overflow: "scroll",
@@ -77,13 +74,17 @@ function Chat() {
       <button
         style={{
           position: "fixed",
-          bottom: "0px",
-          right: "0px",
+          bottom: "10px",
+          right: "10px",
           zIndex: "10",
+          cursor: "pointer",
+          padding: "10px",
+          borderRadius: "50%",
+          border: "none",
         }}
         onClick={() => setShowChat(!showChat)}
       >
-        Group Chat
+        <img src="https://img.icons8.com/ios-filled/50/000000/chat--v1.png" />
       </button>
     </div>
   );
